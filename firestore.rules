@@ -1,0 +1,26 @@
+      rules_version = '2';
+			service cloud.firestore {
+			  match /databases/{database}/documents {
+				match /{datosUsuarios}/{document=**}{
+					allow read, update: if request.auth.uid == resource.data.idemp;
+					allow create: if request.resource.data.idemp is string &&
+									 request.resource.data.usuario is string &&
+									 request.resource.data.email is string &&
+									 request.resource.data.createdAccount is timestamp;
+					allow update: if true;
+					allow delete: if false;
+				}
+				match /{datosContacto}/{document=**}{
+					allow read:if true;
+					allow create: if request.resource.data.nombre is string &&
+									 request.resource.data.descripcion is string &&
+									 request.resource.data.email is string &&
+									 request.resource.data.telefono is string &&
+								   request.resource.data.foto is string;
+					allow update: if false;
+					allow delete: if true;
+			  }
+        }
+	}
+  
+	      
